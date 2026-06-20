@@ -1,0 +1,25 @@
+dirroot                  results
+resroot                  6hr
+
+# --- Input Files ---
+DEMfile                  /scratch/lux0804/AI_flood_2021/inputs/Alzette_sub_basin_10m_bridge_burn.asc
+manningfile              /scratch/lux0804/AI_flood_2021/inputs/manning.n.ascii
+dynamicrainfile          /scratch/lux0804/AI_flood_2021/inputs/rain_fuxi.nc
+startfile                /scratch/lux0804/AI_flood_2021/inputs/july_13_18hr.wd
+
+# --- Solver & Hardware ---
+fv1
+cuda
+
+# --- Simulation Time (72 h: 13->16 Jul 2021) ---
+sim_time                 367200
+initial_tstep            10
+massint                  600
+saveint                  21600
+
+# --- Boundary & Data Handling ---
+bcifile                  /scratch/lux0804/AI_flood_2021/inputs/Border.bci
+#bdyfile                 /scratch/lux0804/AI_flood_2021/inputs/Border.bdy
+nodata_elevation         -9999
+drain_nodata
+qoutput
