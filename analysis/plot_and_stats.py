@@ -69,21 +69,21 @@ MODEL_COLORS = {
     "graphcast":  "#f77f00",   # amber/orange – GraphCast
     "fuxi":       "#7209b7",   # royal purple – FuXi
     "aifs":       "#0077b6",   # sky blue – AIFS
-    "efas_ecmwf": "#6c757d",   # grey – operational benchmark
-    "efas_dwd":   "#b5179e",   # magenta – operational benchmark
+    "efas_ecmwf": "#909090",   # medium grey – operational benchmark (pair)
+    "efas_dwd":   "#404040",   # dark grey   – operational benchmark (pair)
 }
 # pgfplots-friendly RGB (0-255) for the same colours
 MODEL_RGB = {
     "wrf":        (27, 67, 50),   "wrf12":      (82, 183, 136),
     "graphcast":  (247, 127, 0),  "fuxi":       (114, 9, 183),
-    "aifs":       (0, 119, 182),  "efas_ecmwf": (108, 117, 125),
-    "efas_dwd":   (181, 23, 158),
+    "aifs":       (0, 119, 182),  "efas_ecmwf": (144, 144, 144),
+    "efas_dwd":   (64, 64, 64),
 }
 OBS_RGB = (128, 0, 0)
 OBS_COLOR = "#800000"   # dark red/maroon for observations
 MODEL_LS = {
     "wrf":        "-",
-    "wrf12":      "--",
+    "wrf12":      "-",
     "graphcast":  "-",
     "fuxi":       (0, (4, 1.5)),
     "aifs":       (0, (1, 1)),
