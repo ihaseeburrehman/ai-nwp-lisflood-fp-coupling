@@ -296,14 +296,16 @@ def main():
                 rr = int(np.floor((top - y) / h["cellsize"]))
                 # depth in the single gauge cell, not a section mean or a stage
                 rec[f"{n}_Depth_cell"] = max(float(WD[rr, cc]), 0.0)
-                if idx == 8 and model == want[0]:
+                if model == want[0]:
                     # Placement sensitivity. The quadrature is exact, so varying a step
                     # size proves nothing; what the result can still depend on is where
                     # the section sits relative to the 10 m cells. Slide the section
-                    # along the reach by sub-cell amounts and report the spread.
+                    # along the reach by sub-cell amounts and report the spread. This is
+                    # evaluated at each station's OWN peak step, selected after all steps
+                    # have been read, because the stations do not peak simultaneously.
                     for off in (-5.0, -2.5, 0.0, 2.5, 5.0):
                         conv.append(dict(
-                            station=n, offset_m=off,
+                            station=n, step=idx, offset_m=off,
                             Q=line_integral(QX, QY, h, x + off * ux, y + off * uy,
                                             W, ux, uy)))
             rows.append(rec)
@@ -322,11 +324,16 @@ def main():
         print(f"\nwrote {mpath}  ({nver}/{len(manifest)} runs epoch-verified "
               "against their forcing)")
     if conv:
-        c = pd.DataFrame(conv).pivot(index="station", columns="offset_m", values="Q")
+        cv = pd.DataFrame(conv)
+        # each station's peak step, taken from the unshifted section
+        pk = (cv[cv.offset_m == 0.0]
+              .loc[lambda t: t.groupby("station")["Q"].idxmax(), ["station", "step"]])
+        cv = cv.merge(pk, on=["station", "step"])
+        c = cv.pivot(index="station", columns="offset_m", values="Q")
         c["spread_pct"] = 100.0 * (c.max(axis=1) - c.min(axis=1)) / c[0.0]
         c.to_csv(OUT / "placement_sensitivity.csv", float_format="%.3f")
         print("\nsensitivity to section placement along the reach "
-              "(m3/s at the peak step, offsets in m):")
+              "(m3/s at each station's own peak step, offsets in m):")
         print(c.round(2).to_string())
 
 
