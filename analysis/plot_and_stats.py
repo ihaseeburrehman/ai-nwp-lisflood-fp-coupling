@@ -16,6 +16,7 @@ Run from the paper directory:
     /opt/homebrew/Caskroom/miniconda/base/bin/python3 plot_and_stats.py
 """
 import os
+import json
 import numpy as np
 import pandas as pd
 import matplotlib
@@ -43,20 +44,38 @@ plt.rcParams.update({
 })
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-PAPER_DIR  = os.path.dirname(SCRIPT_DIR)   # repo root (parent of scripts/)
+PAPER_DIR  = os.path.dirname(SCRIPT_DIR)   # <root>/analysis (parent of scripts/)
 DATA_DIR   = os.path.join(PAPER_DIR, "data")
 os.chdir(PAPER_DIR)
-os.makedirs("figures", exist_ok=True)
+# FIGDIR is defined below, once PAPER_DIR is known; nothing is written here.
 
 # ── model appearance ──────────────────────────────────────────────────────────
-# Five rainfall forcings routed through LISFLOOD-FP, plus two operational EFAS
-# discharge benchmarks (loaded from the companion paper's CSVs). EFAS is discharge
+# Six rainfall forcings routed through LISFLOOD-FP, plus two operational EFAS
+# discharge benchmarks (re-extracted from the source forecast NetCDFs). EFAS is discharge
 # only, so it appears at the four discharge gauges, not at the Walferdange level gauge.
-MODELS = ["wrf", "wrf12", "graphcast", "fuxi", "aifs", "efas_ecmwf", "efas_dwd"]
+MODELS = ["wrf", "wrf12", "wrf12_before", "graphcast", "fuxi", "aifs",
+          "efas_ecmwf", "efas_dwd"]
 EFAS_MODELS = ["efas_ecmwf", "efas_dwd"]
+
+# All seven rainfall forcings now come from the 96 h rerun set: identical window
+# (13-17 Jul 2021), identical start grid and identical LISFLOOD-FP configuration.
+# Extractions are written by
+# data/lisflood_96h/scripts/extract_station_discharge_96h_all.py.
+LF96 = os.path.join(DATA_DIR, "lisflood_96h")
+SRC_96H = {
+    "wrf":          "wrf1p3_afterda",
+    "wrf12":        "wrf12_afterda",
+    "wrf12_before": "wrf12_beforeda",
+    "graphcast":    "graphcast",
+    "fuxi":         "fuxi",
+    "aifs":         "aifs",
+    "ecmwf":        "ecmwf",
+}
 MODEL_LABELS = {
     "wrf":        "WRF 1.3 km (After-DA)",
     "wrf12":      "WRF 12 km (After-DA)",
+    "wrf12_before": "WRF 12 km (Before-DA)",
+    "ecmwf":      "ECMWF HRES",
     "graphcast":  "GraphCast",
     "fuxi":       "FuXi",
     "aifs":       "AIFS",
@@ -66,6 +85,8 @@ MODEL_LABELS = {
 MODEL_COLORS = {
     "wrf":        "#1b4332",   # deep forest green – WRF 1.3 km
     "wrf12":      "#52b788",   # lighter mint green – WRF 12 km
+    "wrf12_before": "#95d5b2", # palest green – WRF 12 km cold start
+    "ecmwf":      "#d62828",   # red – ECMWF operational HRES
     "graphcast":  "#f77f00",   # amber/orange – GraphCast
     "fuxi":       "#7209b7",   # royal purple – FuXi
     "aifs":       "#0077b6",   # sky blue – AIFS
@@ -76,14 +97,17 @@ MODEL_COLORS = {
 MODEL_RGB = {
     "wrf":        (27, 67, 50),   "wrf12":      (82, 183, 136),
     "graphcast":  (247, 127, 0),  "fuxi":       (114, 9, 183),
+    "wrf12_before": (149, 213, 178), "ecmwf": (214, 40, 40),
     "aifs":       (0, 119, 182),  "efas_ecmwf": (144, 144, 144),
     "efas_dwd":   (64, 64, 64),
 }
-OBS_RGB = (128, 0, 0)
-OBS_COLOR = "#800000"   # dark red/maroon for observations
+OBS_RGB = (255, 0, 0)   # matches \definecolor{clrObs}{HTML}{FF0000} in the manuscript
+OBS_COLOR = "#FF0000"   # red, identical to the LaTeX hydrograph colour
 MODEL_LS = {
     "wrf":        "-",
     "wrf12":      "-",
+    "wrf12_before": (0, (5, 2)),
+    "ecmwf":      (0, (2, 1, 1, 1)),
     "graphcast":  "-",
     "fuxi":       (0, (4, 1.5)),
     "aifs":       (0, (1, 1)),
@@ -101,7 +125,7 @@ STATIONS = {
     "Walferdange": {
         "type":    "water_level",
         "obs_col": "Relativer Wert [cm]",
-        "sim_col": "Walferdange_Depth",
+        "sim_col": "Walferdange_Depth_cell",
         "unit":    "m",
     },
     "Steinsel": {
@@ -132,34 +156,40 @@ STATIONS = {
 
 OBS_FILES = {
     "Walferdange": (
-        "/Users/haseeb.rehman/Documents/Misc/Data_Datasets/"
+        "/Volumes/SanDisk 2TB/2026-07-14-115148.previous/Data/Users/haseeb.rehman/Documents/Misc/Data_Datasets/"
         "Stations_and_Observations/Discharge_data_walferdange_2021/"
         "Data_from _AGE/Walferdange.W15.07.2021.csv"
     ),
     "Steinsel": (
-        "/Users/haseeb.rehman/Documents/Misc/Data_Datasets/"
+        "/Volumes/SanDisk 2TB/2026-07-14-115148.previous/Data/Users/haseeb.rehman/Documents/Misc/Data_Datasets/"
         "Stations_and_Observations/Discharge_data_walferdange_2021/"
         "Data_from _AGE/Steinsel.Q15.VO.07.2021.csv"
     ),
     "Pfaffenthal": (
-        "/Users/haseeb.rehman/Documents/Misc/Data_Datasets/"
+        "/Volumes/SanDisk 2TB/2026-07-14-115148.previous/Data/Users/haseeb.rehman/Documents/Misc/Data_Datasets/"
         "Stations_and_Observations/Discharge_data_walferdange_2021/"
         "Data_from _AGE/Pfaffenthal.Q15.VO.07.2021.csv"
     ),
     "Livange": (
-        "/Users/haseeb.rehman/Documents/Misc/Data_Datasets/"
+        "/Volumes/SanDisk 2TB/2026-07-14-115148.previous/Data/Users/haseeb.rehman/Documents/Misc/Data_Datasets/"
         "Stations_and_Observations/Discharge_data_walferdange_2021/"
         "Data_from _AGE/Livange.Q60_07.2021.csv"
     ),
     "Hesperange": (
-        "/Users/haseeb.rehman/Documents/Misc/Data_Datasets/"
+        "/Volumes/SanDisk 2TB/2026-07-14-115148.previous/Data/Users/haseeb.rehman/Documents/Misc/Data_Datasets/"
         "Stations_and_Observations/Discharge_data_walferdange_2021/"
         "Data_from _AGE/Hesperange.Q60_07.2021.csv"
     ),
 }
 
-START = pd.Timestamp("2021-07-13 00:00")
-END   = pd.Timestamp("2021-07-17 00:00")   # 96 h common flood window (idx 0..16)
+# Option B window. The hydraulic start grid (13_july_18hr.wd) is the model state
+# at 13 July 18:00 UTC, so every run begins there and the 96 h window ends on
+# 17 July 18:00. Observations are trimmed to the same window.
+START = pd.Timestamp("2021-07-13 18:00")
+END   = pd.Timestamp("2021-07-17 18:00")   # 96 h common flood window (idx 0..16)
+
+DISCHARGE_STATIONS = ["Steinsel", "Pfaffenthal", "Livange", "Hesperange"]
+GRID = [START + pd.Timedelta(hours=6 * i) for i in range(17)]   # idx 0..16, 6-hourly
 
 
 # ── helpers ───────────────────────────────────────────────────────────────────
@@ -175,31 +205,34 @@ def load_observed(name):
     return df.set_index("Datetime")
 
 
-# Operational EFAS discharge benchmarks come from the companion paper's CSVs
-COMPANION_CSV = ("/Users/haseeb.rehman/Documents/Phd_thesis/Research_papers/"
-                 "WRF_LISFLOOD_Research_paper_v1/flood_simulations_csv")
+# Operational EFAS discharge benchmarks, re-extracted over the full 96 h window
+# by scripts/extract_efas_discharge.py from the source forecast NetCDFs. The
+# companion paper's CSVs stopped at 16 July 00:00 (13 of the 17 steps).
+EFAS_CSV = os.path.join(LF96, "efas", "efas_station_Q.csv")
 EFAS_COL = {"efas_ecmwf": "EFAS_ECMWF", "efas_dwd": "EFAS_DWD"}
 
 
 def load_efas(model):
-    """Build an EFAS discharge series in our format from the companion CSVs.
+    """Build an EFAS discharge series in our format.
     EFAS is discharge only, so only the four discharge gauges are populated."""
-    col = EFAS_COL[model]
-    frames = {}
-    for st in ["Steinsel", "Pfaffenthal", "Livange", "Hesperange"]:
-        p = os.path.join(COMPANION_CSV, f"{st.lower()}_timeseries.csv")
-        if not os.path.exists(p):
-            continue
-        d = pd.read_csv(p)
-        d["Time"] = pd.to_datetime(d["Time"])
-        frames[f"{st}_Q"] = d.set_index("Time")[col]
-    return pd.DataFrame(frames) if frames else None
+    if not os.path.exists(EFAS_CSV):
+        raise SystemExit(f"{EFAS_CSV} missing; run scripts/extract_efas_discharge.py")
+    key = EFAS_COL[model]
+    d = pd.read_csv(EFAS_CSV)
+    d["datetime"] = pd.to_datetime(d["datetime"])
+    d = d.set_index("datetime")
+    frames = {f"{st}_Q": d[f"{st}_{key}"]
+              for st in ["Steinsel", "Pfaffenthal", "Livange", "Hesperange"]}
+    return pd.DataFrame(frames)
 
 
 def load_simulated(model):
     if model in EFAS_MODELS:
         return load_efas(model)
-    fn = os.path.join(DATA_DIR, f"{model}_station_Q.csv")
+    # Surveyed per-gauge river widths (Sect. 3.5): the discharge transect is the
+    # width measured at each gauge from winter orthoimagery, not a single 20 m
+    # constant. Written by scripts/extract_discharge_surveyed_widths.py.
+    fn = os.path.join(LF96, "line_integral_18utc", f"{SRC_96H[model]}_station_Q.csv")
     if not os.path.exists(fn):
         return None
     df = pd.read_csv(fn)
@@ -213,6 +246,13 @@ def nse(obs, sim):
 
 
 def kge(obs, sim):
+    """Modified Kling-Gupta efficiency, KGE' (Kling et al., 2012).
+
+    The variability term is the ratio of coefficients of variation, not of standard
+    deviations as in the original Gupta et al. (2009) formulation, so the bias and
+    variability terms are not cross-correlated. This matters here because several
+    forcings carry a large volume deficit. The manuscript states the same definition.
+    """
     if len(obs) < 2 or obs.std() == 0 or sim.mean() == 0 or obs.mean() == 0:
         return np.nan
     r, _ = pearsonr(obs, sim)
@@ -257,6 +297,64 @@ def fmt_ax(ax, title=""):
 # ── load all data ─────────────────────────────────────────────────────────────
 obs_data   = {s: load_observed(s) for s in STATIONS}
 model_data = {m: load_simulated(m) for m in MODELS}
+
+
+def validate_inputs():
+    """Check every required input BEFORE any metric is computed.
+
+    Three failures used to survive as far as the printed table: a missing run came
+    through as a column of NaNs, a run extracted under a different epoch produced
+    plausible numbers from a partial overlap, and metrics were printed before the
+    per-series guard was ever reached. Everything is therefore checked up front and
+    the script aborts rather than reporting anything it cannot stand behind.
+    """
+    problems = []
+
+    # 1. the extraction manifest must agree with the window configured here
+    man = os.path.join(LF96, "line_integral_18utc", "run_manifest.json")
+    if os.path.exists(man):
+        with open(man) as fh:
+            m = json.load(fh)
+        got = pd.Timestamp(m.get("assumed_start_utc", "").replace("Z", ""))
+        if got != START:
+            problems.append(
+                f"run_manifest.json says the CSVs were extracted for "
+                f"{got:%Y-%m-%d %H:%M}, but this script is configured for "
+                f"{START:%Y-%m-%d %H:%M}")
+        unver = [r["model"] for r in m.get("runs", []) if not r.get("epoch_verified")]
+        if unver:
+            print(f"  note: epoch not verified against the forcing for: "
+                  f"{', '.join(unver)}")
+    else:
+        problems.append(f"no run_manifest.json in {os.path.dirname(man)}; "
+                        "re-run extract_discharge_line_integral.py")
+
+    # 2. every model must be present and cover the whole window
+    for mdl in MODELS:
+        df = model_data.get(mdl)
+        if df is None or len(df) == 0:
+            problems.append(f"{mdl}: no simulated series loaded")
+            continue
+        for st in DISCHARGE_STATIONS:
+            col = f"{st}_Q"
+            if col not in df.columns:
+                problems.append(f"{mdl}: column {col} missing")
+                continue
+            miss = df[col].reindex(GRID).isna()
+            if miss.any():
+                first = [f"{t:%Y-%m-%d %H:%M}" for t, v in miss.items() if v][0]
+                problems.append(
+                    f"{mdl}/{st}: {int(miss.sum())} of {len(GRID)} steps missing "
+                    f"(first {first})")
+
+    if problems:
+        raise SystemExit("Refusing to compute metrics:\n  - " +
+                         "\n  - ".join(problems))
+    print(f"input validation passed: {len(MODELS)} forcings x {len(GRID)} steps, "
+          f"{START:%Y-%m-%d %H:%M} to {END:%Y-%m-%d %H:%M} UTC")
+
+
+validate_inputs()
 
 # ── performance metrics ───────────────────────────────────────────────────────
 metrics = {}
@@ -323,14 +421,15 @@ print("\n* = simulation did not cover full 96 h window (metrics based on availab
 #  plus the Taylor diagram PDF (figures/taylor_diagram.pdf).  The .tex is untouched.
 # ══════════════════════════════════════════════════════════════════════════════
 PGFDIR = os.path.join(DATA_DIR, "pgfplots")
-FIGDIR = os.path.join(PAPER_DIR, "figures")
+# figures live with the manuscript: <root>/manuscript/figures
+FIGDIR = os.path.join(PAPER_DIR, os.pardir, "manuscript", "figures")
+os.makedirs(FIGDIR, exist_ok=True)
 os.makedirs(PGFDIR, exist_ok=True)
-DISCHARGE_STATIONS = ["Steinsel", "Pfaffenthal", "Livange", "Hesperange"]
-
-GRID = [START + pd.Timedelta(hours=6 * i) for i in range(17)]   # idx 0..16 (6-hourly, 96 h)
-MERGED_COL = {"wrf": "WRF_1p3km", "wrf12": "WRF_12km", "graphcast": "GraphCast",
+MERGED_COL = {"wrf": "WRF_1p3km", "wrf12": "WRF_12km", "wrf12_before": "WRF_12km_BeforeDA",
+              "graphcast": "GraphCast",
               "fuxi": "FuXi", "aifs": "AIFS", "efas_ecmwf": "EFAS_ECMWF", "efas_dwd": "EFAS_DWD"}
-CSVNAME = {"wrf": "wrf", "wrf12": "wrf12", "graphcast": "graphcast", "fuxi": "fuxi",
+CSVNAME = {"wrf": "wrf", "wrf12": "wrf12", "wrf12_before": "wrf12before",
+           "graphcast": "graphcast", "fuxi": "fuxi",
            "aifs": "aifs", "efas_ecmwf": "efasecmwf", "efas_dwd": "efasdwd"}
 
 
@@ -344,7 +443,19 @@ def _model_grid(model, station, suffix="_Q"):
     df = model_data[model]
     if df is None or f"{station}{suffix}" not in df.columns:
         return np.full(17, np.nan)
-    return df[f"{station}{suffix}"].reindex(GRID).values
+    col = df[f"{station}{suffix}"].reindex(GRID)
+    if col.isna().any():
+        missing = [f"{t:%Y-%m-%d %H:%M}" for t, v in col.items() if pd.isna(v)]
+        raise SystemExit(
+            f"{station}{suffix}: the simulated series does not cover the whole "
+            f"analysis window {GRID[0]:%Y-%m-%d %H:%M} to {GRID[-1]:%Y-%m-%d %H:%M}; "
+            f"missing {len(missing)} step(s), first {missing[0]}.\n"
+            "PARTIAL overlap is the dangerous case: it yields plausible-looking but "
+            "wrong metrics. The extracted CSVs were produced under a different run "
+            "epoch than the one configured here. Re-run "
+            "extract_discharge_line_integral.py against runs that start at "
+            f"{GRID[0]:%Y-%m-%d %H:%M} before analysing.")
+    return col.values
 
 
 def _fmt(v):
@@ -364,10 +475,11 @@ for st in DISCHARGE_STATIONS:
 print("Wrote 4 discharge *_merged.csv")
 
 # ── Walferdange water level (m); EFAS omitted (discharge only) ────────────────
-WL = [("wrf", "WRF_1p3km_m"), ("wrf12", "WRF_12km_m"), ("graphcast", "GraphCast_m"),
+WL = [("wrf", "WRF_1p3km_m"), ("wrf12", "WRF_12km_m"),
+      ("wrf12_before", "WRF_12km_BeforeDA_m"), ("graphcast", "GraphCast_m"),
       ("fuxi", "FuXi_m"), ("aifs", "AIFS_m")]
 obs = _obs_grid("Walferdange", scale=0.01)
-wl_series = {c: _model_grid(m, "Walferdange", "_Depth") for m, c in WL}
+wl_series = {c: _model_grid(m, "Walferdange", "_Depth_cell") for m, c in WL}
 lines = ["idx,Observed_m," + ",".join(c for _, c in WL)]
 for i in range(17):
     row = [str(i), _fmt(obs[i])] + [_fmt(wl_series[c][i]) for _, c in WL]
@@ -375,6 +487,19 @@ for i in range(17):
 open(os.path.join(PGFDIR, "walferdange_merged.csv"), "w").write("\n".join(lines) + "\n")
 print("Wrote walferdange_merged.csv")
 
+
+# ── per-station metrics (the values quoted station-by-station in the text) ───
+KEYS_ST = ["nse", "kge", "pde", "timing", "rmse", "mae", "smape", "bias"]
+_st_lines = ["station,model," + ",".join(KEYS_ST)]
+for _s in DISCHARGE_STATIONS:
+    for _m in MODELS:
+        if (_s, _m) not in metrics:
+            continue
+        _r = metrics[(_s, _m)]
+        _st_lines.append(f"{_s},{CSVNAME[_m]}," +
+                         ",".join(_fmt(_r.get(k, float("nan"))) for k in KEYS_ST))
+open(os.path.join(PGFDIR, "metrics_by_station.csv"), "w").write("\n".join(_st_lines) + "\n")
+print("Wrote metrics_by_station.csv")
 
 # ── averaged metrics across the four discharge gauges ────────────────────────
 def agg(key):

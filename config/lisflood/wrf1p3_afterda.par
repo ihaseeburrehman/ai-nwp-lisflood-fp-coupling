@@ -1,10 +1,10 @@
-dirroot                  /ec/res4/scratch/lux0804/ai_rerun_2026/lisflood_all_models_96h/fuxi_18utc/results
+dirroot                  /ec/res4/scratch/lux0804/ai_rerun_2026/lisflood_all_models_96h/wrf1p3_afterda_18utc/results
 resroot                  6hr
 
 # Identical to the GraphCast v2 96 h run in every respect except dynamicrainfile.
 DEMfile                  /ec/res4/scratch/lux0804/ai_rerun_2026/lisflood_graphcast_6h_corrected/inputs/Alzette_sub_basin_10m_bridge_burn.asc
 manningfile              /ec/res4/scratch/lux0804/ai_rerun_2026/lisflood_graphcast_6h_corrected/inputs/manning.n.ascii
-dynamicrainfile          /ec/res4/scratch/lux0804/ai_rerun_2026/lisflood_all_models_96h/inputs_18utc/rain_fuxi_96h.nc
+dynamicrainfile          /ec/res4/scratch/lux0804/ai_rerun_2026/lisflood_all_models_96h/inputs_18utc/rain_wrf1p3_afterda_96h.nc
 startfile                /ec/res4/scratch/lux0804/ai_rerun_2026/lisflood_graphcast_6h_corrected/inputs/13_july_18hr.wd
 
 fv1

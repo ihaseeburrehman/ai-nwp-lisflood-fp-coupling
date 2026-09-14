@@ -4,15 +4,16 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --gres=gpu:1
-#SBATCH --time=18:00:00
+#SBATCH --time=24:00:00
 #SBATCH --qos=ng
-#SBATCH --job-name=lisflood_graphcast
-#SBATCH --output=/scratch/lux0804/AI_flood_2021/runs/graphcast/slurm_%j.out
-#SBATCH --error=/scratch/lux0804/AI_flood_2021/runs/graphcast/slurm_%j.err
-set -e
-cd /scratch/lux0804/AI_flood_2021/runs/graphcast
-module load gcc/8.5.0 cuda/11.6 netcdf4/4.9.2
-echo === LISFLOOD-FP graphcast on ac6-100.bullx ===
-nvidia-smi -L
-time /scratch/lux0804/AI_flood_2021/lisflood graphcast.par
-echo === DONE graphcast ===
+#SBATCH --account=luuni
+#SBATCH --job-name=lf96_graphcast_18
+#SBATCH --output=/ec/res4/scratch/lux0804/ai_rerun_2026/lisflood_graphcast_6h_corrected/logs/graphcast_corrected_18utc_%j.log
+
+set -euo pipefail
+module purge
+module load prgenv/gnu gcc/8.5.0 cuda/11.6 netcdf4/4.9.2 cmake/3.28.3
+ROOT=/ec/res4/scratch/lux0804/ai_rerun_2026/lisflood_graphcast_6h_corrected
+BIN=/ec/res4/scratch/lux0804/ai_rerun_2026/lisflood_fp_8_2/build_patched_backup_v2/lisflood
+mkdir -p "${ROOT}/graphcast_corrected_18utc/results" "${ROOT}/logs"
+"${BIN}" "${ROOT}/graphcast_corrected_18utc.par"

@@ -22,6 +22,47 @@ produces every figure in the paper.
          Taylor, hydrographs)     + Taylor, over 96 h)             from 6-hourly Qx/Qy/wd grids)
 ```
 
+## What changed in v2.0 (September 2026)
+
+This release supersedes v1.0 in one respect that affects every reported number, and the
+earlier version should not be used.
+
+The rainfall post-processor originally wrote each 6-hour accumulation at the timestamp it
+is *valid at* (the end of its interval). LISFLOOD-FP holds a `dynamicrainfile` value
+forward from its timestamp, so each accumulation was applied over the six hours
+**following** the interval it represents. The post-processor now writes each accumulation
+at the **start** of its own interval (`time_stamp_convention = interval_start`), verified
+by closing the model's water balance over the basin mask: the residual is 0.17 mm per 6 h
+(RMSE) with the current convention against 8.69 mm with the old one.
+
+All six hydraulic simulations were repeated with the corrected forcing, and the analysis
+window was set to the epoch of the initial-condition field, **13 July 2021 18:00 -
+17 July 2021 18:00 UTC**. Skill scores changed substantially (for example gauge-mean NSE
+for the 1.3 km WRF forcing moved from 0.72 to 0.558) and the ranking of the AI models
+changed with them.
+
+Also in this release: the extractor computes discharge as an exact line integral across
+each gauge's surveyed section, and refuses to write output if a run's forcing declares a
+window that disagrees with the analysis epoch; KGE is the modified form of Kling et al.
+(2012).
+
+## Reproducing the reported numbers
+
+```
+python3 analysis/extract_discharge_line_integral.py   # model grids -> discharge CSVs
+python3 analysis/plot_and_stats.py                    # CSVs -> metrics, merged series
+```
+
+`data/processed/pgfplots/` holds the files the manuscript reads directly; every value
+plotted or quoted in the paper comes from them. `data/processed/line_integral/run_manifest.json`
+records, for each of the six runs, its results directory, forcing file, start epoch and
+`.par`, together with a flag confirming the epoch was verified against the forcing.
+
+The raw LISFLOOD-FP output grids (~19 GB) and the rainfall NetCDFs are not in this
+repository; the `.par` files under `config/lisflood/` name them by their original paths.
+Observed discharge and stage are provided by the Administration de la gestion de l'eau
+(AGE), Luxembourg, and are available from AGE on request.
+
 ## Repository layout
 
 | Path | Contents |

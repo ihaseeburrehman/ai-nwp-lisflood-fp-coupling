@@ -13,8 +13,8 @@ Usage:
         dem_asc      : target DEM .asc (header defines the 10 m EPSG:2169 grid)
         out_nc       : output rain NetCDF
 
-Window: 2021-07-13 00:00 -> 2021-07-16 00:00 (72 h, 6-hourly => 13 steps incl. a
-zero layer at t=0, identical to rain_10m.nc). Each forecast_<stamp>.nc holds the
+Window: 2021-07-13 00:00 -> 2021-07-17 00:00 (96 h, 6-hourly => 17 layers:
+16 accumulations at 0..90 h plus a closing zero at 96 h).
 6 h precipitation accumulation valid at <stamp> (filename = true valid time).
 
 GraphCast/FuXi: var `total_precipitation_6hr` on a regular 0.25 deg lat/lon grid.
@@ -30,8 +30,11 @@ import xarray as xr
 from pyproj import Transformer
 from scipy.interpolate import griddata
 
-START = pd.Timestamp("2021-07-13 00:00")
-END = pd.Timestamp("2021-07-17 06:00")
+# Option B window. The hydraulic start grid (13_july_18hr.wd) is the model state
+# at 13 July 18:00 UTC, so the forcing must begin there: applying rain from
+# 13 July 00:00 would replay the 18 h already contained in the start state.
+START = pd.Timestamp("2021-07-13 18:00")
+END = pd.Timestamp("2021-07-17 18:00")
 STEP_H = 6
 BBOX = dict(lat_min=48.5, lat_max=51.0, lon_min=4.5, lon_max=8.0)
 MM_PER_M = 1000.0
@@ -103,9 +106,20 @@ def main():
         print(f"  {model} {stamp}: src_pts={pmm.size:4d} src_max={pmm.max():6.1f}mm "
               f"grid_mean={grid.mean():6.2f}mm", flush=True)
 
-    rain = np.concatenate([np.zeros((1, ny, nx), np.float32),
-                           np.stack(layers, axis=0)], axis=0)        # (13, ny, nx)
-    thours = (np.arange(rain.shape[0]) * STEP_H).astype(np.float64)  # [0,6,...,72]
+    # TIMESTAMP CONVENTION (corrected 2026-09-09).
+    # forecast_<stamp>.nc holds the accumulation VALID AT <stamp>, i.e. covering the
+    # SIX HOURS ENDING at <stamp>. LISFLOOD-FP reads a dynamicrainfile value as a rate
+    # held FORWARD from its timestamp to the next one, so writing the accumulation at
+    # <stamp> applies it over <stamp> -> <stamp>+6 h, one interval too late. The
+    # accumulation must therefore be stamped at the START of its own interval.
+    # The earlier version of this script zero-padded at t=0 and stamped each
+    # accumulation at its valid time; the runs analysed in the manuscript were built
+    # that way and are one interval late (see the manuscript's limitations section).
+    # Verified by closing dV/dt + Qout against the applied rainfall over the basin
+    # mask: RMSE 8.69 mm per 6 h as previously written, 0.17 mm with this correction.
+    rain = np.concatenate([np.stack(layers, axis=0),
+                           np.zeros((1, ny, nx), np.float32)], axis=0)
+    thours = (np.arange(rain.shape[0]) * STEP_H).astype(np.float64)  # [0,6,...,96]
     print(f"  EVENT total domain-mean = {rain.mean(axis=(1, 2)).sum():.1f} mm "
           f"(WRF After-DA ref ~87.6)")
 
@@ -121,7 +135,12 @@ def main():
             "rainfall_depth": (("time", "y", "x"), rain,
                                {"units": "mm", "long_name": "rainfall_depth"}),
         },
-        attrs={"crs": "EPSG:2169", "spatial_ref": PROJ4_2169, "source_model": model},
+        attrs={"crs": "EPSG:2169", "spatial_ref": PROJ4_2169, "source_model": model,
+               "time_stamp_convention": "interval_start",
+               "window_start_utc": START.strftime("%Y-%m-%dT%H:%M:%SZ"),
+               "window_end_utc": END.strftime("%Y-%m-%dT%H:%M:%SZ"),
+               "time_stamp_note": ("each layer is the accumulation over "
+                                   "[t, t+6h); the final layer is a closing zero")},
     )
     out_ds.to_netcdf(out, format="NETCDF4",
                      encoding={"time": {"_FillValue": None, "dtype": "float64"},

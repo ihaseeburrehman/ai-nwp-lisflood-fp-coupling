@@ -1,0 +1,90 @@
+{
+  "extracted_utc": "2026-09-14T11:14:39Z",
+  "assumed_start_utc": "2021-07-13T18:00:00Z",
+  "runs": [
+    {
+      "model": "wrf1p3_afterda",
+      "results_dir": "/Users/haseeb/Documents/Phd_thesis/Research_papers/WRF_vs_AI_LISFLOOD_v1/analysis/data/lisflood_96h/runs/wrf1p3_afterda/results",
+      "steps": 17,
+      "assumed_start_utc": "2021-07-13T18:00:00Z",
+      "interval_h": 6,
+      "par": "/Users/haseeb/Documents/Phd_thesis/Research_papers/WRF_vs_AI_LISFLOOD_v1/analysis/data/lisflood_96h/runs/wrf1p3_afterda/wrf1p3_afterda.par",
+      "rainfile": "/Users/haseeb/Documents/Phd_thesis/Research_papers/WRF_vs_AI_LISFLOOD_v1/analysis/data/lisflood_96h/rain_18utc/rain_wrf1p3_afterda_96h.nc",
+      "startfile": "/ec/res4/scratch/lux0804/ai_rerun_2026/lisflood_graphcast_6h_corrected/inputs/13_july_18hr.wd",
+      "sim_time_s": "345600",
+      "forcing_window_start_utc": "2021-07-13T18:00:00Z",
+      "forcing_convention": "interval_start",
+      "epoch_verified": true
+    },
+    {
+      "model": "wrf12_afterda",
+      "results_dir": "/Users/haseeb/Documents/Phd_thesis/Research_papers/WRF_vs_AI_LISFLOOD_v1/analysis/data/lisflood_96h/runs/wrf12_afterda/results",
+      "steps": 17,
+      "assumed_start_utc": "2021-07-13T18:00:00Z",
+      "interval_h": 6,
+      "par": "/Users/haseeb/Documents/Phd_thesis/Research_papers/WRF_vs_AI_LISFLOOD_v1/analysis/data/lisflood_96h/runs/wrf12_afterda/wrf12_afterda.par",
+      "rainfile": "/Users/haseeb/Documents/Phd_thesis/Research_papers/WRF_vs_AI_LISFLOOD_v1/analysis/data/lisflood_96h/rain_18utc/rain_wrf12_afterda_96h.nc",
+      "startfile": "/ec/res4/scratch/lux0804/ai_rerun_2026/lisflood_graphcast_6h_corrected/inputs/13_july_18hr.wd",
+      "sim_time_s": "345600",
+      "forcing_window_start_utc": "2021-07-13T18:00:00Z",
+      "forcing_convention": "interval_start",
+      "epoch_verified": true
+    },
+    {
+      "model": "wrf12_beforeda",
+      "results_dir": "/Users/haseeb/Documents/Phd_thesis/Research_papers/WRF_vs_AI_LISFLOOD_v1/analysis/data/lisflood_96h/runs/wrf12_beforeda/results",
+      "steps": 17,
+      "assumed_start_utc": "2021-07-13T18:00:00Z",
+      "interval_h": 6,
+      "par": "/Users/haseeb/Documents/Phd_thesis/Research_papers/WRF_vs_AI_LISFLOOD_v1/analysis/data/lisflood_96h/runs/wrf12_beforeda/wrf12_beforeda.par",
+      "rainfile": "/Users/haseeb/Documents/Phd_thesis/Research_papers/WRF_vs_AI_LISFLOOD_v1/analysis/data/lisflood_96h/rain_18utc/rain_wrf12_beforeda_96h.nc",
+      "startfile": "/ec/res4/scratch/lux0804/ai_rerun_2026/lisflood_graphcast_6h_corrected/inputs/13_july_18hr.wd",
+      "sim_time_s": "345600",
+      "forcing_window_start_utc": "2021-07-13T18:00:00Z",
+      "forcing_convention": "interval_start",
+      "epoch_verified": true
+    },
+    {
+      "model": "graphcast",
+      "results_dir": "/Users/haseeb/Documents/Phd_thesis/Research_papers/WRF_vs_AI_LISFLOOD_v1/analysis/data/lisflood_96h/runs/graphcast/results",
+      "steps": 17,
+      "assumed_start_utc": "2021-07-13T18:00:00Z",
+      "interval_h": 6,
+      "par": "/Users/haseeb/Documents/Phd_thesis/Research_papers/WRF_vs_AI_LISFLOOD_v1/analysis/data/lisflood_96h/runs/graphcast/graphcast.par",
+      "rainfile": "/Users/haseeb/Documents/Phd_thesis/Research_papers/WRF_vs_AI_LISFLOOD_v1/analysis/data/lisflood_96h/rain_18utc/rain_graphcast_v2_96h.nc",
+      "startfile": "/ec/res4/scratch/lux0804/ai_rerun_2026/lisflood_graphcast_6h_corrected/inputs/13_july_18hr.wd",
+      "sim_time_s": "345600",
+      "forcing_window_start_utc": "2021-07-13T18:00:00Z",
+      "forcing_convention": "interval_start",
+      "epoch_verified": true
+    },
+    {
+      "model": "aifs",
+      "results_dir": "/Users/haseeb/Documents/Phd_thesis/Research_papers/WRF_vs_AI_LISFLOOD_v1/analysis/data/lisflood_96h/runs/aifs/results",
+      "steps": 17,
+      "assumed_start_utc": "2021-07-13T18:00:00Z",
+      "interval_h": 6,
+      "par": "/Users/haseeb/Documents/Phd_thesis/Research_papers/WRF_vs_AI_LISFLOOD_v1/analysis/data/lisflood_96h/runs/aifs/aifs.par",
+      "rainfile": "/Users/haseeb/Documents/Phd_thesis/Research_papers/WRF_vs_AI_LISFLOOD_v1/analysis/data/lisflood_96h/rain_18utc/rain_aifs_96h.nc",
+      "startfile": "/ec/res4/scratch/lux0804/ai_rerun_2026/lisflood_graphcast_6h_corrected/inputs/13_july_18hr.wd",
+      "sim_time_s": "345600",
+      "forcing_window_start_utc": "2021-07-13T18:00:00Z",
+      "forcing_convention": "interval_start",
+      "epoch_verified": true
+    },
+    {
+      "model": "fuxi",
+      "results_dir": "/Users/haseeb/Documents/Phd_thesis/Research_papers/WRF_vs_AI_LISFLOOD_v1/analysis/data/lisflood_96h/runs/fuxi/results",
+      "steps": 17,
+      "assumed_start_utc": "2021-07-13T18:00:00Z",
+      "interval_h": 6,
+      "par": "/Users/haseeb/Documents/Phd_thesis/Research_papers/WRF_vs_AI_LISFLOOD_v1/analysis/data/lisflood_96h/runs/fuxi/fuxi.par",
+      "rainfile": "/Users/haseeb/Documents/Phd_thesis/Research_papers/WRF_vs_AI_LISFLOOD_v1/analysis/data/lisflood_96h/rain_18utc/rain_fuxi_96h.nc",
+      "startfile": "/ec/res4/scratch/lux0804/ai_rerun_2026/lisflood_graphcast_6h_corrected/inputs/13_july_18hr.wd",
+      "sim_time_s": "345600",
+      "forcing_window_start_utc": "2021-07-13T18:00:00Z",
+      "forcing_convention": "interval_start",
+      "epoch_verified": true
+    }
+  ]
+}
