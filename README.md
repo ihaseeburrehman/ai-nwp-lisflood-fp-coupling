@@ -23,7 +23,7 @@ produces every figure in the paper.
 
 ## What changed in v2.1 (October 2026)
 
-Added two numerically verified six-forcing [video supplements](videos/README.md):
+Added two numerically verified six-forcing [video supplements](videos/):
 Steinsel discharge and Walferdange observed stage/simulated depth. Large red map
 markers identify each station. The corrected v2.0 simulations, processed data and
 reported numerical results remain unchanged.
