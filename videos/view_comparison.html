@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>July 2021 flood — AI and physics-based forcing</title>
+<style>body{margin:0;background:#eff3f6;color:#172e44;font:16px system-ui,sans-serif}main{max-width:1500px;margin:24px auto;padding:0 20px}h1{font-size:26px;margin-bottom:8px}p{line-height:1.5}video{display:block;width:100%;background:white;border-radius:8px}select{padding:9px;margin:8px 0 16px;font:inherit}small{display:block;margin-top:14px;line-height:1.5;color:#425569}a{color:#146390}</style>
+<main><h1>AI and physics-based forecasts: flood simulation comparison</h1>
+<p>July 2021 Alzette flood, Luxembourg. Maps and river-discharge curves advance together.</p>
+<label for="layout">Comparison: </label><select id="layout"><option value="all_six_3x2_steinsel_discharge">Steinsel discharge · all six forcings</option><option value="all_six_3x2_walferdange_water_level">Walferdange stage/depth · all six forcings</option></select>
+<video id="film" controls playsinline preload="metadata" poster="all_six_3x2_steinsel_discharge_poster.png" src="all_six_3x2_steinsel_discharge_1080p.mp4"></video>
+<small>17 simulation snapshots at six-hour intervals; no temporal interpolation. Display maps use maximum depth in 40 m blocks from 10 m cells and hide depths below 0.10 m. Maps include river channels; inundation extent has not been observation-validated. AIFS training includes this event. Walferdange compares observed stage and simulated depth with an uncalibrated datum offset. <a href="README.md">Methods and caption</a>.</small></main>
+<script>const menu=document.getElementById('layout'),film=document.getElementById('film');menu.addEventListener('change',()=>{film.pause();film.src=menu.value+'_1080p.mp4';film.poster=menu.value+'_poster.png';film.load()})</script>
+</html>

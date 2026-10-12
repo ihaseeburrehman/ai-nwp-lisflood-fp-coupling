@@ -1,0 +1,392 @@
+{
+  "source_header": {
+    "ncols": 2440.0,
+    "nrows": 4362.0,
+    "xllcorner": 59799.282,
+    "yllcorner": 49254.0,
+    "cellsize": 10.0,
+    "nodata_value": -9999.0
+  },
+  "display_block_m": 40,
+  "depth_threshold_m": 0.1,
+  "station": "Walferdange",
+  "observed_quantity": "stage",
+  "simulated_quantity": "cell water depth",
+  "stage_depth_datum_calibrated": false,
+  "steps": [
+    {
+      "step": 0,
+      "valid_utc": "2021-07-13T18:00:00Z",
+      "wrf1p3_afterda": {
+        "display_max_depth_m": 3.5250000953674316
+      },
+      "wrf12_afterda": {
+        "display_max_depth_m": 3.5250000953674316
+      },
+      "wrf12_beforeda": {
+        "display_max_depth_m": 3.5250000953674316
+      },
+      "graphcast": {
+        "display_max_depth_m": 3.5250000953674316
+      },
+      "aifs": {
+        "display_max_depth_m": 3.5250000953674316
+      },
+      "fuxi": {
+        "display_max_depth_m": 3.5250000953674316
+      }
+    },
+    {
+      "step": 1,
+      "valid_utc": "2021-07-14T00:00:00Z",
+      "wrf1p3_afterda": {
+        "display_max_depth_m": 3.306999921798706
+      },
+      "wrf12_afterda": {
+        "display_max_depth_m": 3.306999921798706
+      },
+      "wrf12_beforeda": {
+        "display_max_depth_m": 3.306999921798706
+      },
+      "graphcast": {
+        "display_max_depth_m": 3.306999921798706
+      },
+      "aifs": {
+        "display_max_depth_m": 3.306999921798706
+      },
+      "fuxi": {
+        "display_max_depth_m": 3.316999912261963
+      }
+    },
+    {
+      "step": 2,
+      "valid_utc": "2021-07-14T06:00:00Z",
+      "wrf1p3_afterda": {
+        "display_max_depth_m": 3.4140000343322754
+      },
+      "wrf12_afterda": {
+        "display_max_depth_m": 3.4110000133514404
+      },
+      "wrf12_beforeda": {
+        "display_max_depth_m": 3.4049999713897705
+      },
+      "graphcast": {
+        "display_max_depth_m": 3.4070000648498535
+      },
+      "aifs": {
+        "display_max_depth_m": 3.437000036239624
+      },
+      "fuxi": {
+        "display_max_depth_m": 3.4609999656677246
+      }
+    },
+    {
+      "step": 3,
+      "valid_utc": "2021-07-14T12:00:00Z",
+      "wrf1p3_afterda": {
+        "display_max_depth_m": 6.206999778747559
+      },
+      "wrf12_afterda": {
+        "display_max_depth_m": 6.5970001220703125
+      },
+      "wrf12_beforeda": {
+        "display_max_depth_m": 5.77400016784668
+      },
+      "graphcast": {
+        "display_max_depth_m": 5.749000072479248
+      },
+      "aifs": {
+        "display_max_depth_m": 6.139999866485596
+      },
+      "fuxi": {
+        "display_max_depth_m": 5.291999816894531
+      }
+    },
+    {
+      "step": 4,
+      "valid_utc": "2021-07-14T18:00:00Z",
+      "wrf1p3_afterda": {
+        "display_max_depth_m": 11.416000366210938
+      },
+      "wrf12_afterda": {
+        "display_max_depth_m": 11.413999557495117
+      },
+      "wrf12_beforeda": {
+        "display_max_depth_m": 11.413999557495117
+      },
+      "graphcast": {
+        "display_max_depth_m": 10.291999816894531
+      },
+      "aifs": {
+        "display_max_depth_m": 11.41100025177002
+      },
+      "fuxi": {
+        "display_max_depth_m": 5.506999969482422
+      }
+    },
+    {
+      "step": 5,
+      "valid_utc": "2021-07-15T00:00:00Z",
+      "wrf1p3_afterda": {
+        "display_max_depth_m": 11.407999992370605
+      },
+      "wrf12_afterda": {
+        "display_max_depth_m": 11.406000137329102
+      },
+      "wrf12_beforeda": {
+        "display_max_depth_m": 11.406999588012695
+      },
+      "graphcast": {
+        "display_max_depth_m": 11.41100025177002
+      },
+      "aifs": {
+        "display_max_depth_m": 11.39900016784668
+      },
+      "fuxi": {
+        "display_max_depth_m": 5.664999961853027
+      }
+    },
+    {
+      "step": 6,
+      "valid_utc": "2021-07-15T06:00:00Z",
+      "wrf1p3_afterda": {
+        "display_max_depth_m": 11.34000015258789
+      },
+      "wrf12_afterda": {
+        "display_max_depth_m": 11.34000015258789
+      },
+      "wrf12_beforeda": {
+        "display_max_depth_m": 11.34000015258789
+      },
+      "graphcast": {
+        "display_max_depth_m": 11.35099983215332
+      },
+      "aifs": {
+        "display_max_depth_m": 11.352999687194824
+      },
+      "fuxi": {
+        "display_max_depth_m": 5.989999771118164
+      }
+    },
+    {
+      "step": 7,
+      "valid_utc": "2021-07-15T12:00:00Z",
+      "wrf1p3_afterda": {
+        "display_max_depth_m": 11.340999603271484
+      },
+      "wrf12_afterda": {
+        "display_max_depth_m": 11.342000007629395
+      },
+      "wrf12_beforeda": {
+        "display_max_depth_m": 11.335000038146973
+      },
+      "graphcast": {
+        "display_max_depth_m": 11.352999687194824
+      },
+      "aifs": {
+        "display_max_depth_m": 11.354000091552734
+      },
+      "fuxi": {
+        "display_max_depth_m": 6.683000087738037
+      }
+    },
+    {
+      "step": 8,
+      "valid_utc": "2021-07-15T18:00:00Z",
+      "wrf1p3_afterda": {
+        "display_max_depth_m": 11.338000297546387
+      },
+      "wrf12_afterda": {
+        "display_max_depth_m": 11.338000297546387
+      },
+      "wrf12_beforeda": {
+        "display_max_depth_m": 11.336000442504883
+      },
+      "graphcast": {
+        "display_max_depth_m": 11.342000007629395
+      },
+      "aifs": {
+        "display_max_depth_m": 11.345999717712402
+      },
+      "fuxi": {
+        "display_max_depth_m": 6.735000133514404
+      }
+    },
+    {
+      "step": 9,
+      "valid_utc": "2021-07-16T00:00:00Z",
+      "wrf1p3_afterda": {
+        "display_max_depth_m": 11.333000183105469
+      },
+      "wrf12_afterda": {
+        "display_max_depth_m": 11.333000183105469
+      },
+      "wrf12_beforeda": {
+        "display_max_depth_m": 11.333000183105469
+      },
+      "graphcast": {
+        "display_max_depth_m": 11.336999893188477
+      },
+      "aifs": {
+        "display_max_depth_m": 11.336000442504883
+      },
+      "fuxi": {
+        "display_max_depth_m": 6.624000072479248
+      }
+    },
+    {
+      "step": 10,
+      "valid_utc": "2021-07-16T06:00:00Z",
+      "wrf1p3_afterda": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "wrf12_afterda": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "wrf12_beforeda": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "graphcast": {
+        "display_max_depth_m": 11.335000038146973
+      },
+      "aifs": {
+        "display_max_depth_m": 11.333999633789062
+      },
+      "fuxi": {
+        "display_max_depth_m": 6.590000152587891
+      }
+    },
+    {
+      "step": 11,
+      "valid_utc": "2021-07-16T12:00:00Z",
+      "wrf1p3_afterda": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "wrf12_afterda": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "wrf12_beforeda": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "graphcast": {
+        "display_max_depth_m": 11.338000297546387
+      },
+      "aifs": {
+        "display_max_depth_m": 11.33899974822998
+      },
+      "fuxi": {
+        "display_max_depth_m": 6.618000030517578
+      }
+    },
+    {
+      "step": 12,
+      "valid_utc": "2021-07-16T18:00:00Z",
+      "wrf1p3_afterda": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "wrf12_afterda": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "wrf12_beforeda": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "graphcast": {
+        "display_max_depth_m": 11.333999633789062
+      },
+      "aifs": {
+        "display_max_depth_m": 11.336000442504883
+      },
+      "fuxi": {
+        "display_max_depth_m": 7.044000148773193
+      }
+    },
+    {
+      "step": 13,
+      "valid_utc": "2021-07-17T00:00:00Z",
+      "wrf1p3_afterda": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "wrf12_afterda": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "wrf12_beforeda": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "graphcast": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "aifs": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "fuxi": {
+        "display_max_depth_m": 7.330999851226807
+      }
+    },
+    {
+      "step": 14,
+      "valid_utc": "2021-07-17T06:00:00Z",
+      "wrf1p3_afterda": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "wrf12_afterda": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "wrf12_beforeda": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "graphcast": {
+        "display_max_depth_m": 11.333000183105469
+      },
+      "aifs": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "fuxi": {
+        "display_max_depth_m": 7.383999824523926
+      }
+    },
+    {
+      "step": 15,
+      "valid_utc": "2021-07-17T12:00:00Z",
+      "wrf1p3_afterda": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "wrf12_afterda": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "wrf12_beforeda": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "graphcast": {
+        "display_max_depth_m": 11.333999633789062
+      },
+      "aifs": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "fuxi": {
+        "display_max_depth_m": 7.442999839782715
+      }
+    },
+    {
+      "step": 16,
+      "valid_utc": "2021-07-17T18:00:00Z",
+      "wrf1p3_afterda": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "wrf12_afterda": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "wrf12_beforeda": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "graphcast": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "aifs": {
+        "display_max_depth_m": 11.331999778747559
+      },
+      "fuxi": {
+        "display_max_depth_m": 7.5279998779296875
+      }
+    }
+  ]
+}

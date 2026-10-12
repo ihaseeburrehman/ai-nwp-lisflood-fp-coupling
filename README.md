@@ -2,8 +2,7 @@
 
 Code and processed data accompanying:
 
-> *Coupling data-driven NWP (GraphCast, FuXi, AIFS) to high-resolution hydraulic
-> flood simulation: the July 2021 Luxembourg flood.* (Journal of Hydrology, under review)
+> *From weather forecasts to floods: can AI weather models rival physics-based forecasts? A hydraulic evaluation of the July 2021 Luxembourg flood.* (NHESS manuscript EGUSPHERE-2026-6277)
 
 This repository contains the **coupling and analysis pipeline** — the part of the study
 that is *not* already public. The weather models, the hydraulic engine, and the input
@@ -21,6 +20,13 @@ produces every figure in the paper.
         (NSE/KGE/PDE/PTE,        (metrics + hydrographs           (per-gauge discharge & depth
          Taylor, hydrographs)     + Taylor, over 96 h)             from 6-hourly Qx/Qy/wd grids)
 ```
+
+## What changed in v2.1 (October 2026)
+
+Added two numerically verified six-forcing [video supplements](videos/README.md):
+Steinsel discharge and Walferdange observed stage/simulated depth. Large red map
+markers identify each station. The corrected v2.0 simulations, processed data and
+reported numerical results remain unchanged.
 
 ## What changed in v2.0 (September 2026)
 
